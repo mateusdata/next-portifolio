@@ -1,7 +1,15 @@
+import { headers } from 'next/headers';
 import Link from 'next/link'
 import React from 'react'
 
-export default function Header() {
+export default async function Header() {
+  const headersList = await headers();
+  const pathname = headersList.get("next-url"); // 
+
+  if(pathname === '/login'){
+    return null
+  }
+  
   return (
     <div className="bg-neutral-50 dark:bg-neutral-950">
       <header className="flex justify-between items-center p-4">
@@ -29,6 +37,13 @@ export default function Header() {
             href="/perfil"
           >
             Perfil
+          </Link>
+
+          <Link
+            className="dark:text-white text-neutral-950 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            href="/login"
+          >
+            Login
           </Link>
         </nav>
       </header>

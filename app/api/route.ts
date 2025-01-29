@@ -27,12 +27,16 @@ const email = `${randomUUID()}@gmail.com`
 
 
 export async function POST(req: Request) {
-  const { name, email } = await req.json();
+  const { name, email, password } = await req.json();
   const newUser = await prisma.user.create({
     data: {
-      name,
-      email,
+      name: name,
+      email: email,
+      password: password
     },
   });
-  return NextResponse.json(newUser, { status: 201 });
+
+  const { password: remove, ...userWithoutPassword } = newUser;
+
+  return NextResponse.json(userWithoutPassword, { status: 201 });
 }

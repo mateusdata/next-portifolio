@@ -1,4 +1,6 @@
+import { prisma } from '@/lib/prisma';
 import { randomUUID } from 'crypto';
+import { NextResponse } from 'next/server';
 
 export const revalidate = 60
  
@@ -10,11 +12,18 @@ export async function GET(req: Request) {
 }
 let users: { id: string, name: string, email: string }[] = [];
 
+
 export async function POST(req: Request) {
-  const { name, email } = await req.json();
-  const newUser = { id: randomUUID(), name, email };
-  users.push(newUser);
-  return Response.json(newUser, { status: 201 });
+  const { name, email, password } = await req.json();
+  const newUser = await prisma.user.create({
+    data: {
+      name,
+      email,
+      password
+    },
+  });
+
+  return NextResponse.json(newUser, { status: 205 });
 }
 
 export async function PUT(req: Request) {

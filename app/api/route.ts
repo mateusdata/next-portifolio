@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export const revalidate = 60
 
-export async function GET(req: Request, res: Response) {
+export async function GET(req: Request) {
 
 log("mateus santos") 
 const email = `${randomUUID()}@gmail.com`
@@ -23,7 +23,7 @@ const email = `${randomUUID()}@gmail.com`
 
 
 
-export async function POST(req: Request, res: NextResponse) {
+export async function POST(req: Request) {
   const { name, email } = await req.json();
   const newUser = await prisma.user.create({
     data: {

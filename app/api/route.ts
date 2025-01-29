@@ -13,14 +13,17 @@ const email = `${randomUUID()}@gmail.com`
     data: {
       email: email,
       name: "Mateus",
+    },
+    include: {
+      posts: true 
     }
   })
 
   const users = await prisma.user.findMany()  
+  const formatUser =  users.map(({password, ...rest}) => rest)
 
-  return Response.json(users)
+  return Response.json(formatUser)
 }
-
 
 
 export async function POST(req: Request) {
